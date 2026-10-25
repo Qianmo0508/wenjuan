@@ -107,7 +107,7 @@ body{
   max-height:calc(100vh - 90px);
   user-select:text;
   -webkit-user-select:text;
-  touch-action:none; /* 允许自定义手势 */
+  touch-action:none;
 }
 .win-title{
   height:26px;flex:none;
@@ -119,7 +119,7 @@ body{
   cursor:default;
   user-select:none;
   -webkit-user-select:none;
-  touch-action:none; /* 阻止默认滚动 */
+  touch-action:none;
   cursor:move;
 }
 .win-title .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -137,8 +137,8 @@ body{
   position:relative;
   user-select:text;
   -webkit-user-select:text;
-  -webkit-overflow-scrolling:touch; /* 手机端流畅滚动 */
-  touch-action:pan-y; /* 允许窗口内容垂直滑动 */
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
 }
 .win-body::-webkit-scrollbar{width:11px;height:11px;}
 .win-body::-webkit-scrollbar-track{background:#eceef0;}
@@ -247,7 +247,7 @@ body{
   background:#eceef0;border:1px solid #b9bdc4;
   padding:5px 16px;border-radius:0;cursor:default;
   letter-spacing:.5px;
-  touch-action:manipulation; /* 减少点击延迟 */
+  touch-action:manipulation;
 }
 .btn:hover{background:#e2e5e8;}
 .btn:active{background:#d8dbdf;}
@@ -325,6 +325,37 @@ body{
 }
 
 /* ============================================================
+   备忘录特化样式
+   ============================================================ */
+.memo-app {
+  background:#fdfbe8;
+  padding:20px;
+  font-family:"Kaiti SC", "STKaiti", "Microsoft YaHei", sans-serif;
+  font-size:14px;
+  line-height:2;
+  color:#2a2d31;
+}
+.memo-app .memo-date {
+  text-align:right;
+  font-size:12px;
+  color:#6b7078;
+  margin-bottom:16px;
+  border-bottom:1px solid #e0d6b8;
+  padding-bottom:8px;
+}
+.memo-app .memo-q {
+  margin-top:16px;
+  color:#8a2b2b;
+  font-weight:bold;
+}
+.memo-app .memo-opt {
+  display:block;
+  margin:6px 0 6px 20px;
+  font-family:"Microsoft YaHei",sans-serif;
+  font-size:13px;
+}
+
+/* ============================================================
    模态
    ============================================================ */
 #modal-layer{
@@ -345,47 +376,23 @@ body{
 .modal .m-body{padding:16px 16px 12px;font-size:13px;line-height:1.8;}
 .modal .m-btns{display:flex;justify-content:flex-end;gap:8px;padding:0 16px 14px;}
 
-/* 通用小工具 */
-.gray{color:#6b7078;}
-.mono-s{font-family:"Consolas","Courier New",monospace;}
-
 /* ============================================================
-   移动端特别修正：让图标可以滑动，窗口可以拖动
+   移动端适配
    ============================================================ */
 @media (max-width: 600px) {
   #icons {
-    flex-direction: row;
-    flex-wrap: wrap;
-    height: auto;
-    left: 0;
-    right: 0;
-    top: 36px;
-    justify-content: center;
-    gap: 6px;
-    padding: 0 8px;
+    flex-direction: row; flex-wrap: wrap; height: auto;
+    left: 0; right: 0; top: 36px; justify-content: center;
+    gap: 6px; padding: 0 8px;
   }
-  .dicon {
-    width: 72px;
-    padding: 4px 2px;
-  }
+  .dicon { width: 72px; padding: 4px 2px; }
   .dicon .ico { height: 34px; }
   .dicon .lbl { font-size: 10px; }
-  .win {
-    max-width: calc(100vw - 8px);
-    max-height: calc(100vh - 60px);
-  }
-  .win-body {
-    padding: 12px 12px 16px;
-  }
-  .win-title {
-    cursor: grab;
-  }
-  .win-title:active {
-    cursor: grabbing;
-  }
-  .sel, .inp, .ta {
-    max-width: 100%;
-  }
+  .win { max-width: calc(100vw - 8px); max-height: calc(100vh - 60px); }
+  .win-body { padding: 12px 12px 16px; }
+  .win-title { cursor: grab; }
+  .win-title:active { cursor: grabbing; }
+  .sel, .inp, .ta { max-width: 100%; }
 }
 </style>
 </head>
@@ -399,69 +406,62 @@ body{
 
 <!-- 桌面图标 -->
 <div id="icons">
-
   <div class="dicon" data-open="archive">
     <div class="ico">
-      <svg viewBox="0 0 48 40" width="42" height="35" aria-hidden="true">
-        <path d="M3 8h14l4 5h24v24H3z" fill="#4c5560" stroke="#818b97" stroke-width="1.2"/>
-        <path d="M3 13h42" stroke="#818b97" stroke-width="1"/>
-      </svg>
+      <svg viewBox="0 0 48 40" width="42" height="35"><path d="M3 8h14l4 5h24v24H3z" fill="#4c5560" stroke="#818b97" stroke-width="1.2"/><path d="M3 13h42" stroke="#818b97" stroke-width="1"/></svg>
     </div>
     <div class="lbl">居民档案</div>
   </div>
 
   <div class="dicon" data-open="rules">
     <div class="ico">
-      <svg viewBox="0 0 48 40" width="42" height="35" aria-hidden="true">
-        <path d="M3 8h14l4 5h24v24H3z" fill="#4c5560" stroke="#818b97" stroke-width="1.2"/>
-        <path d="M3 13h42" stroke="#818b97" stroke-width="1"/>
-      </svg>
+      <svg viewBox="0 0 48 40" width="42" height="35"><path d="M3 8h14l4 5h24v24H3z" fill="#4c5560" stroke="#818b97" stroke-width="1.2"/><path d="M3 13h42" stroke="#818b97" stroke-width="1"/></svg>
     </div>
     <div class="lbl">内部规章</div>
   </div>
 
   <div class="dicon" data-open="system">
     <div class="ico">
-      <svg viewBox="0 0 48 40" width="42" height="35" aria-hidden="true">
-        <path d="M3 8h14l4 5h24v24H3z" fill="#4c5560" stroke="#818b97" stroke-width="1.2"/>
-        <path d="M3 13h42" stroke="#818b97" stroke-width="1"/>
-      </svg>
+      <svg viewBox="0 0 48 40" width="42" height="35"><path d="M3 8h14l4 5h24v24H3z" fill="#4c5560" stroke="#818b97" stroke-width="1.2"/><path d="M3 13h42" stroke="#818b97" stroke-width="1"/></svg>
     </div>
     <div class="lbl">系统</div>
   </div>
 
   <div class="dicon" data-open="unnamed">
     <div class="ico">
-      <svg viewBox="0 0 40 48" width="34" height="41" aria-hidden="true">
-        <path d="M6 3h20l8 8v34H6z" fill="#d9dce0" stroke="#8d949c" stroke-width="1.2"/>
-        <path d="M26 3v8h8" fill="none" stroke="#8d949c" stroke-width="1.2"/>
-        <path d="M12 20h16M12 26h16M12 32h10" stroke="#9aa1a9" stroke-width="1.2"/>
-      </svg>
+      <svg viewBox="0 0 40 48" width="34" height="41"><path d="M6 3h20l8 8v34H6z" fill="#d9dce0" stroke="#8d949c" stroke-width="1.2"/><path d="M26 3v8h8" fill="none" stroke="#8d949c" stroke-width="1.2"/><path d="M12 20h16M12 26h16M12 32h10" stroke="#9aa1a9" stroke-width="1.2"/></svg>
     </div>
     <div class="lbl">未命名</div>
   </div>
 
   <div class="dicon" data-open="filed">
     <div class="ico">
-      <svg viewBox="0 0 48 40" width="42" height="35" aria-hidden="true">
-        <path d="M3 8h14l4 5h24v24H3z" fill="#4c5560" stroke="#818b97" stroke-width="1.2"/>
-        <path d="M3 13h42" stroke="#818b97" stroke-width="1"/>
-      </svg>
+      <svg viewBox="0 0 48 40" width="42" height="35"><path d="M3 8h14l4 5h24v24H3z" fill="#4c5560" stroke="#818b97" stroke-width="1.2"/><path d="M3 13h42" stroke="#818b97" stroke-width="1"/></svg>
     </div>
     <div class="lbl">归档</div>
   </div>
 
   <div class="dicon" data-open="trash">
     <div class="ico">
-      <svg viewBox="0 0 40 48" width="34" height="41" aria-hidden="true">
-        <path d="M8 14h24l-2 30H10z" fill="#3f464f" stroke="#7d858f" stroke-width="1.2"/>
-        <path d="M5 10h30v4H5z" fill="#4c5560" stroke="#7d858f" stroke-width="1.2"/>
-        <path d="M16 20v18M20 20v18M24 20v18" stroke="#6d757f" stroke-width="1"/>
-      </svg>
+      <svg viewBox="0 0 40 48" width="34" height="41"><path d="M8 14h24l-2 30H10z" fill="#3f464f" stroke="#7d858f" stroke-width="1.2"/><path d="M5 10h30v4H5z" fill="#4c5560" stroke="#7d858f" stroke-width="1.2"/><path d="M16 20v18M20 20v18M24 20v18" stroke="#6d757f" stroke-width="1"/></svg>
     </div>
     <div class="lbl">回收站</div>
   </div>
 
+  <!-- 后期异化图标 -->
+  <div class="dicon" data-open="memo" id="icon-memo" style="display:none;">
+    <div class="ico">
+      <svg viewBox="0 0 40 48" width="34" height="41"><path d="M6 3h20l8 8v34H6z" fill="#fdfbe8" stroke="#b9bdc4" stroke-width="1.2"/><path d="M12 16h16M12 24h16M12 32h10" stroke="#9aa1a9" stroke-width="1.2"/></svg>
+    </div>
+    <div class="lbl">个人备忘.txt</div>
+  </div>
+
+  <div class="dicon" data-open="phone" id="icon-phone" style="display:none;">
+    <div class="ico">
+      <svg viewBox="0 0 48 40" width="42" height="35"><rect x="14" y="4" width="20" height="32" rx="2" fill="#4c5560" stroke="#818b97" stroke-width="1.5"/><circle cx="24" cy="30" r="2" fill="#a0a8b2"/></svg>
+    </div>
+    <div class="lbl">内线通讯.app</div>
+  </div>
 </div>
 
 <!-- 任务栏 -->
@@ -477,32 +477,90 @@ body{
 "use strict";
 
 /* ============================================================
-   0. 全局状态
+   0. 音效系统 (Web Audio API)
+   ============================================================ */
+let audioCtx = null;
+let droneOsc = null;
+let droneGain = null;
+
+function initAudio() {
+  if (audioCtx) return;
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContext) return;
+  audioCtx = new AudioContext();
+  
+  // 初始化低频环境音
+  droneOsc = audioCtx.createOscillator();
+  droneGain = audioCtx.createGain();
+  droneOsc.type = 'sine';
+  droneOsc.frequency.value = 55; // 55Hz 低频
+  droneGain.gain.value = 0;
+  droneOsc.connect(droneGain);
+  droneGain.connect(audioCtx.destination);
+  droneOsc.start();
+}
+
+function playBeep(freq, type, duration, vol) {
+  if (!audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = type || 'sine';
+  osc.frequency.value = freq || 800;
+  gain.gain.setValueAtTime(vol || 0.1, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  osc.stop(audioCtx.currentTime + duration);
+}
+
+// 敲击键盘音
+function playTyping() {
+  if (!audioCtx) return;
+  playBeep(1200 + Math.random() * 400, 'square', 0.05, 0.03);
+}
+
+// 系统错误音
+function playError() {
+  playBeep(300, 'sawtooth', 0.15, 0.1);
+  setTimeout(() => playBeep(250, 'sawtooth', 0.2, 0.1), 150);
+}
+
+// 环境音淡入
+function fadeDrone(vol, duration) {
+  if (!audioCtx || !droneGain) return;
+  droneGain.gain.linearRampToValueAtTime(vol, audioCtx.currentTime + duration);
+}
+
+/* ============================================================
+   1. 全局状态
    ============================================================ */
 const state = {
-  answers: {},                       // 题目 id -> 答案
+  answers: {},
   scores: { comply: 0, aware: 0, residue: 0 },
   page: 0,
   flags: {
-    q13: null,                       // 第 13 题的处理方式
-    forcedIncomplete: false,         // 是否被强制补全
-    completed: false,                // 是否完成过普查
-    backFail: {},                    // 上一页失灵的页
-    padded: {},                      // 已追加过字符的输入框
+    q13: null,
+    forcedIncomplete: false,
+    completed: false,
+    backFail: {},
+    padded: {},
     archiveId: null,
     clockFrozen: null,
-    reopenCount: 0
+    reopenCount: 0,
+    memoChoices: {}
   },
   meta: { name: "", floor: "", household: "", door: "", contact: "" }
 };
 
 let surveyWin = null;
+let memoWin = null;
 let zTop = 100;
 const windows = [];
 let fadeTimer = null;
 
 /* ============================================================
-   1. 文案集中管理
+   2. 文本与题目数据
    ============================================================ */
 const TEXTS = {
   notice: [
@@ -578,187 +636,71 @@ const TEXTS = {
   ].join("\n")
 };
 
-/* ============================================================
-   2. 题目数据（数据驱动，新增题目只需改这里）
-   ============================================================ */
-
 function O(label, w, tags, quote) {
-  return {
-    label: label,
-    w: (w === undefined ? 1 : w),
-    tags: tags || ["comply"],
-    quote: quote || label
-  };
+  return { label: label, w: (w === undefined ? 1 : w), tags: tags || ["comply"], quote: quote || label };
 }
 
-/* ---------- 第 1 页：一、基本信息 ---------- */
+/* 完整还原的第 1 页 */
 const PAGE1 = [
   { id: "q1", no: "1", type: "input", title: "姓名", required: true, residue: true, placeholder: "请填写本人姓名", maxlength: 20 },
-  { id: "q2", no: "2", type: "radio", title: "性别", required: true, options: [
-      O("男"), O("女"), O("不愿透露", 1, ["avoid"])
-  ]},
+  { id: "q2", no: "2", type: "radio", title: "性别", required: true, options: [ O("男"), O("女"), O("不愿透露", 1, ["avoid"]) ]},
   { id: "q3", no: "3", type: "number", title: "年龄", required: true, unit: "岁", min: 1, max: 120 },
-  { id: "q4", no: "4", type: "radio", title: "最高学历", required: false, options: [
-      O("初中及以下"), O("高中或中专"), O("大专"), O("本科"), O("研究生及以上")
-  ]},
-  { id: "q5", no: "5", type: "select", title: "职业类型", required: true, placeholder: "请选择", options: [
-      O("学生"), O("企业职员"), O("公职人员"), O("自由职业"), O("无业"), O("退休"), O("其他")
-  ]},
-  { id: "q6", no: "6", type: "select", title: "居住区域", required: true, placeholder: "请选择", options: [
-      O("A 区"), O("B 区"), O("C 区"), O("D 区"), O("站外区域")
-  ]},
-  { id: "q7", no: "7", type: "select", title: "居住楼层", required: true, residue: true, placeholder: "请选择",
-    options: Array.from({ length: 30 }, function (_, i) {
-      return O((i + 1) + " 层", 1, ["residue"]);
-    }).concat([O("不适用", 1, ["avoid"])])
-  },
+  { id: "q4", no: "4", type: "radio", title: "最高学历", required: false, options: [ O("初中及以下"), O("高中或中专"), O("大专"), O("本科"), O("研究生及以上") ]},
+  { id: "q5", no: "5", type: "select", title: "职业类型", required: true, placeholder: "请选择", options: [ O("学生"), O("企业职员"), O("公职人员"), O("自由职业"), O("无业"), O("退休"), O("其他") ]},
+  { id: "q6", no: "6", type: "select", title: "居住区域", required: true, placeholder: "请选择", options: [ O("A 区"), O("B 区"), O("C 区"), O("D 区"), O("站外区域") ]},
+  { id: "q7", no: "7", type: "select", title: "居住楼层", required: true, residue: true, placeholder: "请选择", options: Array.from({ length: 30 }, (_, i) => O((i + 1) + " 层", 1, ["residue"])).concat([O("不适用", 1, ["avoid"])]) },
   { id: "q8", no: "8", type: "input", title: "联系方式", required: false, hint: "（选填）", residue: true, placeholder: "电话或内线", maxlength: 30 },
-  { id: "q9", no: "9", type: "radio", title: "在本区域连续居住时长", required: false, options: [
-      O("不满 1 年"), O("1–3 年"), O("3–5 年"), O("5 年以上"), O("无法确认", 2, ["aware", "residue"])
-  ]}
+  { id: "q9", no: "9", type: "radio", title: "在本区域连续居住时长", required: false, options: [ O("不满 1 年"), O("1–3 年"), O("3–5 年"), O("5 年以上"), O("无法确认", 2, ["aware", "residue"]) ]}
 ];
 
-/* ---------- 第 2 页：二、居住环境 ---------- */
+/* 完整还原的第 2 页 */
 const PAGE2 = [
-  { id: "q10", no: "1", type: "radio", title: "住房类型", required: true, options: [
-      O("自有"), O("租住"), O("单位分配"), O("其他")
-  ]},
-  { id: "q11", no: "2", type: "radio", title: "同住人数", required: true, options: [
-      O("独居"), O("1 人"), O("2 人"), O("3 人及以上")
-  ]},
-  { id: "q12", no: "3", type: "checkbox", title: "下列设施中，目前可以正常使用的是", required: true, options: [
-      O("照明"), O("自来水"), O("燃气"), O("网络"), O("门锁"), O("窗户"), O("固定电话"),
-      O("以上均不正常", 1, ["aware"])
-  ]},
-  { id: "q13", no: "4", type: "radio", title: "每日通勤方式", required: false, options: [
-      O("步行"), O("自行车 / 电动车"), O("公共交通"), O("私家车"), O("无需通勤")
-  ]},
-  { id: "q14", no: "5", type: "select", title: "平均每日睡眠时长", required: false, placeholder: "请选择", options: [
-      O("不足 4 小时"), O("4–6 小时"), O("6–8 小时"), O("8 小时以上")
-  ]},
+  { id: "q10", no: "1", type: "radio", title: "住房类型", required: true, options: [ O("自有"), O("租住"), O("单位分配"), O("其他") ]},
+  { id: "q11", no: "2", type: "radio", title: "同住人数", required: true, options: [ O("独居"), O("1 人"), O("2 人"), O("3 人及以上") ]},
+  { id: "q12", no: "3", type: "checkbox", title: "下列设施中，目前可以正常使用的是", required: true, options: [ O("照明"), O("自来水"), O("燃气"), O("网络"), O("门锁"), O("窗户"), O("固定电话"), O("以上均不正常", 1, ["aware"]) ]},
+  { id: "q13", no: "4", type: "radio", title: "每日通勤方式", required: false, options: [ O("步行"), O("自行车 / 电动车"), O("公共交通"), O("私家车"), O("无需通勤") ]},
+  { id: "q14", no: "5", type: "select", title: "平均每日睡眠时长", required: false, placeholder: "请选择", options: [ O("不足 4 小时"), O("4–6 小时"), O("6–8 小时"), O("8 小时以上") ]},
   { id: "q15", no: "6", type: "textarea", title: "请简述您最近一周的作息安排。", required: true, maxlength: 100, placeholder: "不超过 100 字" },
-  { id: "q16", no: "7", type: "radio", title: "您住所的窗户朝向", required: false, options: [
-      O("东"), O("南"), O("西"), O("北"), O("不确定", 1, ["aware"])
-  ]}
+  { id: "q16", no: "7", type: "radio", title: "您住所的窗户朝向", required: false, options: [ O("东"), O("南"), O("西"), O("北"), O("不确定", 1, ["aware"]) ]}
 ];
 
-/* ---------- 第 3 页：三、生活习惯 ---------- */
+/* 完整还原的第 3 页 */
 const PAGE3 = [
-  { id: "q17", no: "1", type: "radio", title: "每周外出次数", required: false, options: [
-      O("几乎不外出"), O("1–2 次"), O("3–5 次"), O("6 次以上")
-  ]},
+  { id: "q17", no: "1", type: "radio", title: "每周外出次数", required: false, options: [ O("几乎不外出"), O("1–2 次"), O("3–5 次"), O("6 次以上") ]},
   { id: "q18", no: "2", type: "scale", title: "饮食规律程度", required: true, minLabel: "极不规律", maxLabel: "非常规律" },
-  { id: "q19", no: "3", type: "checkbox", title: "您平时通过哪些方式获取信息？", required: true,
-    limit: 3, limitMsg: "最多选择三项", options: [
-      O("电视"), O("广播"), O("报纸"), O("互联网"), O("邻里交谈"), O("单位通知"), O("公告栏")
-  ]},
+  { id: "q19", no: "3", type: "checkbox", title: "您平时通过哪些方式获取信息？", required: true, limit: 3, limitMsg: "最多选择三项", options: [ O("电视"), O("广播"), O("报纸"), O("互联网"), O("邻里交谈"), O("单位通知"), O("公告栏") ]},
   { id: "q20", no: "4", type: "scale", title: "睡眠质量自评", required: false, minLabel: "很差", maxLabel: "很好" },
   { id: "q21", no: "5", type: "textarea", title: "请用一句话描述您对目前居住环境的满意程度。", required: false, maxlength: 50, placeholder: "不超过 50 字" },
-  { id: "q22", no: "6", type: "radio", title: "您住所内是否配备以下设备？", required: false, other: true, options: [
-      O("电视"), O("收音机"), O("固定电话"), O("其他")
-  ]},
-  { id: "q23", no: "7", type: "select", title: "您每日在住所内停留的平均时长", required: false, placeholder: "请选择", options: [
-      O("不足 8 小时"), O("8–12 小时"), O("12–16 小时"), O("16 小时以上")
-  ]}
+  { id: "q22", no: "6", type: "radio", title: "您住所内是否配备以下设备？", required: false, other: true, options: [ O("电视"), O("收音机"), O("固定电话"), O("其他") ]},
+  { id: "q23", no: "7", type: "select", title: "您每日在住所内停留的平均时长", required: false, placeholder: "请选择", options: [ O("不足 8 小时"), O("8–12 小时"), O("12–16 小时"), O("16 小时以上") ]}
 ];
 
-/* ---------- 第 4 页：四、日常观察（第一道裂缝） ---------- */
+/* 完整还原的第 4 页 */
 const PAGE4 = [
-  { id: "q24", no: "1", type: "radio", required: true,
-    title: "您最近一个月内，是否注意到家中物品的位置发生过您未进行过的变动？",
-    options: [
-      O("从未", 1, ["deny"]),
-      O("1–2 次", 2, ["aware"]),
-      O("经常", 3, ["aware"]),
-      O("无法判断", 2, ["aware", "residue"])
-    ]},
-  { id: "q25", no: "2", type: "radio", required: false,
-    title: "您是否有过“某一天似乎已经度过过”的感觉？",
-    options: [
-      O("无", 1, ["deny"]),
-      O("有，1–2 次", 2, ["aware"]),
-      O("有，3 次以上", 3, ["aware"])
-    ]},
-  { id: "q26", no: "3", type: "radio", required: false,
-    title: "当您返回住所时，是否有时无法立刻确认房间内是否有人？",
-    options: [
-      O("从未", 1, ["deny"]),
-      O("偶尔", 2, ["aware"]),
-      O("经常", 3, ["aware"]),
-      O("我通常不确认", 2, ["aware", "residue"])
-    ]},
-  { id: "q27", no: "4", type: "radio", required: true,
-    title: "您认为自己的记忆与三年前相比：",
-    options: [
-      O("更清晰", 1, ["comply"]),
-      O("无明显变化", 1, ["comply"]),
-      O("更模糊", 2, ["aware"]),
-      O("不属于同一个人", 3, ["aware", "residue"])
-    ]},
-  { id: "q28", no: "5", type: "checkbox", required: true,
-    title: "最近一个月，您是否经历过下列情况？",
-    options: [
-      O("钥匙找不到", 2, ["aware"]),
-      O("手机时间与钟表不一致", 2, ["aware"]),
-      O("听见敲门声但无人", 2, ["aware"]),
-      O("镜中动作略有延迟", 3, ["aware"]),
-      O("收到寄给自己的信", 2, ["aware"]),
-      O("电梯停在不存在楼层", 3, ["aware"]),
-      O("夜间被自己的名字唤醒", 3, ["aware", "residue"]),
-      O("以上均无", 1, ["deny"])
-    ]},
-  { id: "q29", no: "6", type: "select", required: false,
-    title: "您住所的门锁最近一次更换时间为", placeholder: "请选择", options: [
-      O("一个月内"), O("半年内"), O("一年以上"), O("从未更换"), O("不记得", 1, ["aware"])
-  ]}
+  { id: "q24", no: "1", type: "radio", required: true, title: "您最近一个月内，是否注意到家中物品的位置发生过您未进行过的变动？", options: [ O("从未", 1, ["deny"]), O("1–2 次", 2, ["aware"]), O("经常", 3, ["aware"]), O("无法判断", 2, ["aware", "residue"]) ]},
+  { id: "q25", no: "2", type: "radio", required: false, title: "您是否有过“某一天似乎已经度过过”的感觉？", options: [ O("无", 1, ["deny"]), O("有，1–2 次", 2, ["aware"]), O("有，3 次以上", 3, ["aware"]) ]},
+  { id: "q26", no: "3", type: "radio", required: false, title: "当您返回住所时，是否有时无法立刻确认房间内是否有人？", options: [ O("从未", 1, ["deny"]), O("偶尔", 2, ["aware"]), O("经常", 3, ["aware"]), O("我通常不确认", 2, ["aware", "residue"]) ]},
+  { id: "q27", no: "4", type: "radio", required: true, title: "您认为自己的记忆与三年前相比：", options: [ O("更清晰", 1, ["comply"]), O("无明显变化", 1, ["comply"]), O("更模糊", 2, ["aware"]), O("不属于同一个人", 3, ["aware", "residue"]) ]},
+  { id: "q28", no: "5", type: "checkbox", required: true, title: "最近一个月，您是否经历过下列情况？", options: [ O("钥匙找不到", 2, ["aware"]), O("手机时间与钟表不一致", 2, ["aware"]), O("听见敲门声但无人", 2, ["aware"]), O("镜中动作略有延迟", 3, ["aware"]), O("收到寄给自己的信", 2, ["aware"]), O("电梯停在不存在楼层", 3, ["aware"]), O("夜间被自己的名字唤醒", 3, ["aware", "residue"]), O("以上均无", 1, ["deny"]) ]},
+  { id: "q29", no: "6", type: "select", required: false, title: "您住所的门锁最近一次更换时间为", placeholder: "请选择", options: [ O("一个月内"), O("半年内"), O("一年以上"), O("从未更换"), O("不记得", 1, ["aware"]) ]}
 ];
 
-/* ---------- 第 5 页：五、居住记录核对（选项污染） ---------- */
+/* 完整还原的第 5 页 */
 const PAGE5 = [
-  { id: "q30", no: "1", type: "radio", required: false,
-    title: "您目前在本系统中的登记状态为",
-    options: [
-      O("正常登记"),
-      O("临时登记"),
-      O("待复核"),
-      { label: "（本选项不对您开放）", w: 0, tags: ["avoid"], quote: "（本选项不对您开放）", disabled: true }
-    ]},
-  { id: "q31", no: "2", type: "checkbox", required: false,
-    title: "请核对以下与您住所相关的条目，选择全部符合项",
-    options: [
-      O("有独立厨房"), O("有独立卫生间"), O("有阳台"), O("有暖气"),
-      O("有电梯"), O("有门禁"), O("可正常接收信件"),
-      O("其他：＿＿＿＿"), O("其他：＿＿＿＿＿＿")
-    ]},
-  { id: "q32", no: "3", type: "radio", required: false, warn: "请  注  意  保  暖  。",
-    title: "您是否愿意配合后续的定期回访？",
-    options: [
-      O("愿意"), O("视情况而定"), O("不愿意")
-    ]},
-  { id: "q33", no: "4", type: "input", required: true, residue: true,
-    title: "请填写您住所的门牌号码。", hint: "（如不确定可留空）",
-    placeholder: "", maxlength: 12 },
-  { id: "q34", no: "5", type: "scale", required: false,
-    title: "您对当前居住状态的总体评价", minLabel: "", maxLabel: "" }
+  { id: "q30", no: "1", type: "radio", required: false, title: "您目前在本系统中的登记状态为", options: [ O("正常登记"), O("临时登记"), O("待复核"), { label: "（本选项不对您开放）", w: 0, tags: ["avoid"], quote: "（本选项不对您开放）", disabled: true } ]},
+  { id: "q31", no: "2", type: "checkbox", required: false, title: "请核对以下与您住所相关的条目，选择全部符合项", options: [ O("有独立厨房"), O("有独立卫生间"), O("有阳台"), O("有暖气"), O("有电梯"), O("有门禁"), O("可正常接收信件"), O("其他：＿＿＿＿"), O("其他：＿＿＿＿＿＿") ]},
+  { id: "q32", no: "3", type: "radio", required: false, warn: "请  注  意  保  暖  。", title: "您是否愿意配合后续的定期回访？", options: [ O("愿意"), O("视情况而定"), O("不愿意") ]},
+  { id: "q33", no: "4", type: "input", required: true, residue: true, title: "请填写您住所的门牌号码。", hint: "（如不确定可留空）", placeholder: "", maxlength: 12 },
+  { id: "q34", no: "5", type: "scale", required: false, title: "您对当前居住状态的总体评价", minLabel: "", maxLabel: "" }
 ];
 
-/* ---------- 第 6 页：六、回音（动态生成） ---------- */
-/* ---------- 第 7 页：七、补充说明 ---------- */
+/* 完整还原的第 7 页 */
 const PAGE7 = [
-  { id: "q39", no: "13", type: "radio", required: false,
-    title: "您是否愿意在普查结束后，继续留在本系统中？",
-    options: [
-      O("愿意"), O("不愿意"), O("请让我回去")
-    ]},
-  { id: "q40", no: "14", type: "radio", required: false, struck: true,
-    title: "您是否曾向他人描述过本问卷的内容？",
-    hint: "（本题已于 20██ 年废止，请跳过）",
-    options: [ O("是"), O("否") ]},
-  { id: "q41", no: "15", type: "input", required: false, blank: true,
-    title: "", placeholder: "…", maxlength: 40 }
+  { id: "q39", no: "13", type: "radio", required: true, title: "您是否愿意在普查结束后，继续留在本系统中？", options: [ O("愿意"), O("不愿意"), O("请让我回去") ]},
+  { id: "q40", no: "14", type: "radio", required: false, struck: true, title: "您是否曾向他人描述过本问卷的内容？", hint: "（本题已于 20██ 年废止，请跳过）", options: [ O("是"), O("否") ]},
+  { id: "q41", no: "15", type: "input", required: false, blank: true, title: "", placeholder: "…", maxlength: 40 }
 ];
 
-/* ---------- 页面表 ---------- */
 const PAGES = [
   { id: 0, title: "知情同意", questions: [] },
   { id: 1, title: "一、基本信息", questions: PAGE1 },
@@ -771,48 +713,27 @@ const PAGES = [
   { id: 8, title: "结果报告", questions: [] }
 ];
 
-/* 量表题自动生成 1–5 选项 */
-PAGES.forEach(function (pg) {
-  (pg.questions || []).forEach(function (q) {
+PAGES.forEach(pg => {
+  (pg.questions || []).forEach(q => {
     if (q.type === "scale" && !q.options) {
-      q.options = [1, 2, 3, 4, 5].map(function (n) {
-        return { label: String(n), w: 1, tags: ["comply"], quote: String(n) };
-      });
+      q.options = [1, 2, 3, 4, 5].map(n => ({ label: String(n), w: 1, tags: ["comply"], quote: String(n) }));
     }
   });
 });
 
-/* 进度条：内部隐藏偏移值，与页数无关 */
 const PROGRESS = [0, 9, 21, 33, 47, 44, 58, 66, 73];
 
 /* ============================================================
    3. 工具函数
    ============================================================ */
-function escapeAttr(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
-function escapeText(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
+function escapeAttr(s) { return String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+function escapeText(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 
 function syncMeta() {
   const nm = state.answers["q1"];
   state.meta.name = (typeof nm === "string" ? nm : "").trim();
-
   const fl = state.answers["q7"];
-  if (fl && fl !== "不适用") {
-    state.meta.floor = String(fl).replace(/\s*层$/, "");
-  } else {
-    state.meta.floor = "";
-  }
-
+  state.meta.floor = (fl && fl !== "不适用") ? String(fl).replace(/\s*层$/, "") : "";
   state.meta.household = state.answers["q11"] || "";
   state.meta.door = (state.answers["q33"] || "").trim();
   state.meta.contact = (state.answers["q8"] || "").trim();
@@ -851,6 +772,7 @@ function findQuestion(id) {
 function focusWin(win) {
   if (!win || !win.el) return;
   win.el.style.zIndex = ++zTop;
+  if (!audioCtx) initAudio();
 }
 
 function createWindow(opts) {
@@ -861,7 +783,6 @@ function createWindow(opts) {
   const h = opts.height || 460;
   el.style.width = w + "px";
   el.style.height = h + "px";
-
   const n = windows.length % 5;
   el.style.left = Math.max(20, 130 + n * 26) + "px";
   el.style.top = Math.max(36, 62 + n * 22) + "px";
@@ -881,7 +802,6 @@ function createWindow(opts) {
   el.querySelector(".win-title .t").textContent = opts.title || "";
   const body = el.querySelector(".win-body");
   if (opts.content) body.innerHTML = opts.content;
-
   document.body.appendChild(el);
 
   win.el = el;
@@ -890,15 +810,9 @@ function createWindow(opts) {
   win.minimized = false;
   win.beforeClose = null;
   win.onClose = opts.onClose || null;
-
-  win.setTitle = function (t) {
-    win.title = t;
-    el.querySelector(".win-title .t").textContent = t;
-  };
-  win.setBody = function (html) {
-    body.innerHTML = html;
-  };
-  win.close = function () {
+  win.setTitle = t => { win.title = t; el.querySelector(".win-title .t").textContent = t; };
+  win.setBody = html => { body.innerHTML = html; };
+  win.close = () => {
     if (win.beforeClose && win.beforeClose() === false) return;
     el.remove();
     if (win.tbItem && win.tbItem.parentNode) win.tbItem.remove();
@@ -906,13 +820,13 @@ function createWindow(opts) {
     if (i >= 0) windows.splice(i, 1);
     if (win.onClose) win.onClose();
   };
-  win.minimize = function () {
+  win.minimize = () => {
     el.style.display = "none";
     win.minimized = true;
     const item = document.createElement("div");
     item.className = "tb-item";
     item.textContent = win.title;
-    item.addEventListener("click", function () {
+    item.addEventListener("click", () => {
       el.style.display = "flex";
       win.minimized = false;
       focusWin(win);
@@ -923,24 +837,14 @@ function createWindow(opts) {
     win.tbItem = item;
   };
 
-  /* 置顶 */
-  el.addEventListener("mousedown", function () { focusWin(win); });
-  el.addEventListener("touchstart", function () { focusWin(win); }, { passive: true });
+  el.addEventListener("mousedown", () => focusWin(win));
+  el.addEventListener("touchstart", () => focusWin(win), { passive: true });
 
-  /* 关闭 / 最小化 */
-  el.querySelector(".wb-close").addEventListener("click", function (e) {
-    e.stopPropagation();
-    win.close();
-  });
-  el.querySelector(".wb-min").addEventListener("click", function (e) {
-    e.stopPropagation();
-    win.minimize();
-  });
-  el.querySelector(".wb-max").addEventListener("click", function (e) {
-    e.stopPropagation();
-  });
+  el.querySelector(".wb-close").addEventListener("click", e => { e.stopPropagation(); playBeep(600, 'sine', 0.05, 0.05); win.close(); });
+  el.querySelector(".wb-min").addEventListener("click", e => { e.stopPropagation(); playBeep(500, 'sine', 0.05, 0.05); win.minimize(); });
+  el.querySelector(".wb-max").addEventListener("click", e => e.stopPropagation());
 
-  /* 拖动：鼠标与触摸 */
+  // 拖动逻辑
   const titleBar = el.querySelector(".win-title");
   let dragStart = null;
 
@@ -949,12 +853,7 @@ function createWindow(opts) {
     focusWin(win);
     const clientX = e.type.startsWith("touch") ? e.touches[0].clientX : e.clientX;
     const clientY = e.type.startsWith("touch") ? e.touches[0].clientY : e.clientY;
-    dragStart = {
-      x: clientX,
-      y: clientY,
-      left: el.offsetLeft,
-      top: el.offsetTop
-    };
+    dragStart = { x: clientX, y: clientY, left: el.offsetLeft, top: el.offsetTop };
     if (e.type === "mousedown") {
       document.addEventListener("mousemove", onDragMove);
       document.addEventListener("mouseup", onDragEnd);
@@ -967,23 +866,17 @@ function createWindow(opts) {
 
   function onDragMove(e) {
     if (!dragStart) return;
-    if (e.cancelable) e.preventDefault(); // 阻止滚动
+    if (e.cancelable) e.preventDefault();
     const clientX = e.type.startsWith("touch") ? e.touches[0].clientX : e.clientX;
     const clientY = e.type.startsWith("touch") ? e.touches[0].clientY : e.clientY;
     const dx = clientX - dragStart.x;
     const dy = clientY - dragStart.y;
-
     let newLeft = dragStart.left + dx;
     let newTop = dragStart.top + dy;
-
-    // 限制窗口不能完全移出可视区域（简单限制）
     const winW = el.offsetWidth;
     const winH = el.offsetHeight;
-    const maxLeft = window.innerWidth - 40;
-    const maxTop = window.innerHeight - 40;
-    newLeft = Math.max(-winW + 60, Math.min(maxLeft, newLeft));
-    newTop = Math.max(26, Math.min(maxTop, newTop));
-
+    newLeft = Math.max(-winW + 60, Math.min(window.innerWidth - 40, newLeft));
+    newTop = Math.max(26, Math.min(window.innerHeight - 40, newTop));
     el.style.left = newLeft + "px";
     el.style.top = newTop + "px";
   }
@@ -1005,7 +898,7 @@ function createWindow(opts) {
 }
 
 /* ============================================================
-   5. 模态对话框
+   5. 模态 / 通知
    ============================================================ */
 function showModal(text, onOk, okLabel, cancelLabel) {
   const layer = document.getElementById("modal-layer");
@@ -1019,13 +912,13 @@ function showModal(text, onOk, okLabel, cancelLabel) {
       '</div>' +
     '</div>';
   layer.classList.add("on");
-  layer.querySelector('[data-m="cancel"]').addEventListener("click", function () {
-    layer.classList.remove("on");
-    layer.innerHTML = "";
+  playError();
+  layer.querySelector('[data-m="cancel"]').addEventListener("click", () => {
+    layer.classList.remove("on"); layer.innerHTML = "";
   });
-  layer.querySelector('[data-m="ok"]').addEventListener("click", function () {
-    layer.classList.remove("on");
-    layer.innerHTML = "";
+  layer.querySelector('[data-m="ok"]').addEventListener("click", () => {
+    layer.classList.remove("on"); layer.innerHTML = "";
+    playBeep(800, 'sine', 0.1, 0.05);
     if (onOk) onOk();
   });
 }
@@ -1035,9 +928,9 @@ function notify(text) {
   n.className = "notify";
   n.textContent = text;
   document.body.appendChild(n);
-  setTimeout(function () {
-    if (n.parentNode) n.remove();
-  }, 6500);
+  playBeep(1000, 'sine', 0.1, 0.05);
+  setTimeout(() => playBeep(1200, 'sine', 0.1, 0.05), 150);
+  setTimeout(() => { if (n.parentNode) n.remove(); }, 6500);
 }
 
 /* ============================================================
@@ -1050,10 +943,7 @@ function tickClock() {
     return;
   }
   const d = new Date();
-  const hh = String(d.getHours()).padStart(2, "0");
-  const mm = String(d.getMinutes()).padStart(2, "0");
-  const ss = String(d.getSeconds()).padStart(2, "0");
-  el.textContent = hh + ":" + mm + ":" + ss;
+  el.textContent = String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0") + ":" + String(d.getSeconds()).padStart(2, "0");
 }
 setInterval(tickClock, 1000);
 tickClock();
@@ -1061,31 +951,22 @@ tickClock();
 function freezeClockIfNeeded(pageIdx) {
   if (pageIdx >= 6 && !state.flags.clockFrozen) {
     const d = new Date();
-    state.flags.clockFrozen =
-      String(d.getHours()).padStart(2, "0") + ":" +
-      String(d.getMinutes()).padStart(2, "0") + ":" +
-      String(d.getSeconds()).padStart(2, "0");
+    state.flags.clockFrozen = String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0") + ":" + String(d.getSeconds()).padStart(2, "0");
+    fadeDrone(0.15, 2);
   }
 }
 
 /* ============================================================
-   7. 问卷：渲染
+   7. 问卷渲染与逻辑
    ============================================================ */
-
 function renderQuestionHTML(q) {
   let h = '<div class="q" data-qid="' + q.id + '">';
-
-  h += '<div class="q-head">';
-  h += '<span class="q-no">' + q.no + '.</span>';
-  if (q.title) {
-    h += '<span class="q-title' + (q.struck ? " struck" : "") + '">' + escapeText(q.title) + '</span>';
-  }
+  h += '<div class="q-head"><span class="q-no">' + q.no + '.</span>';
+  if (q.title) h += '<span class="q-title' + (q.struck ? " struck" : "") + '">' + escapeText(q.title) + '</span>';
   if (q.required) h += '<span class="req">*</span>';
   if (q.hint) h += '<span class="q-hint">' + escapeText(q.hint) + '</span>';
   h += '</div>';
-
   if (q.warn) h += '<div class="q-warn">' + escapeText(q.warn) + '</div>';
-
   const val = state.answers[q.id];
 
   if (q.type === "radio" || q.type === "checkbox" || q.type === "scale") {
@@ -1093,95 +974,57 @@ function renderQuestionHTML(q) {
       h += '<div class="scale-row">';
       if (q.minLabel) h += '<span class="scale-end">' + escapeText(q.minLabel) + '</span>';
       h += '<div class="opts">';
-      (q.options || []).forEach(function (o) {
-        const checked = (val === o.label);
-        h += '<label class="opt">' +
-          '<input type="radio" name="' + q.id + '" value="' + escapeAttr(o.label) + '" data-qid="' + q.id + '"' + (checked ? " checked" : "") + '>' +
-          '<span class="box"></span><span class="lb">' + escapeText(o.label) + '</span>' +
-          '</label>';
+      (q.options || []).forEach(o => {
+        h += '<label class="opt"><input type="radio" name="' + q.id + '" value="' + escapeAttr(o.label) + '" data-qid="' + q.id + '"' + (val === o.label ? " checked" : "") + '><span class="box"></span><span class="lb">' + escapeText(o.label) + '</span></label>';
       });
       h += '</div>';
       if (q.maxLabel) h += '<span class="scale-end">' + escapeText(q.maxLabel) + '</span>';
       h += '</div>';
     } else {
       h += '<div class="opts">';
-      (q.options || []).forEach(function (o) {
-        let checked = false;
-        if (q.type === "radio") {
-          checked = (val === o.label);
-        } else {
-          checked = Array.isArray(val) && val.indexOf(o.label) >= 0;
-        }
-        h += '<label class="opt' + (o.disabled ? " disabled" : "") + '">' +
-          '<input type="' + q.type + '" name="' + q.id + '" value="' + escapeAttr(o.label) + '" data-qid="' + q.id + '"' +
-          (checked ? " checked" : "") + (o.disabled ? " disabled" : "") + '>' +
-          '<span class="box"></span><span class="lb">' + escapeText(o.label) + '</span>' +
-          '</label>';
+      (q.options || []).forEach(o => {
+        let checked = (q.type === "radio") ? (val === o.label) : (Array.isArray(val) && val.indexOf(o.label) >= 0);
+        h += '<label class="opt' + (o.disabled ? " disabled" : "") + '"><input type="' + q.type + '" name="' + q.id + '" value="' + escapeAttr(o.label) + '" data-qid="' + q.id + '"' + (checked ? " checked" : "") + (o.disabled ? " disabled" : "") + '><span class="box"></span><span class="lb">' + escapeText(o.label) + '</span></label>';
       });
       h += '</div>';
-      if (q.limit) {
-        h += '<div class="q-limit" data-limitfor="' + q.id + '"></div>';
-      }
+      if (q.limit) h += '<div class="q-limit" data-limitfor="' + q.id + '"></div>';
     }
   } else if (q.type === "select") {
-    h += '<select class="sel" data-qid="' + q.id + '">';
-    h += '<option value="">' + escapeText(q.placeholder || "请选择") + '</option>';
-    (q.options || []).forEach(function (o) {
-      h += '<option value="' + escapeAttr(o.label) + '"' + (val === o.label ? " selected" : "") + '>' + escapeText(o.label) + '</option>';
-    });
+    h += '<select class="sel" data-qid="' + q.id + '"><option value="">' + escapeText(q.placeholder || "请选择") + '</option>';
+    (q.options || []).forEach(o => { h += '<option value="' + escapeAttr(o.label) + '"' + (val === o.label ? " selected" : "") + '>' + escapeText(o.label) + '</option>'; });
     h += '</select>';
   } else if (q.type === "input") {
-    h += '<input class="inp" type="text" data-qid="' + q.id + '" value="' + escapeAttr(val || "") + '"' +
-      ' placeholder="' + escapeAttr(q.placeholder || "") + '" maxlength="' + (q.maxlength || 60) + '">';
+    h += '<input class="inp" type="text" data-qid="' + q.id + '" value="' + escapeAttr(val || "") + '" placeholder="' + escapeAttr(q.placeholder || "") + '" maxlength="' + (q.maxlength || 60) + '">';
   } else if (q.type === "number") {
-    h += '<input class="inp num" type="number" data-qid="' + q.id + '" value="' + escapeAttr(val || "") + '"' +
-      ' min="' + (q.min !== undefined ? q.min : 0) + '" max="' + (q.max !== undefined ? q.max : 999) + '">';
-    h += '<span class="unit">' + escapeText(q.unit || "") + '</span>';
+    h += '<input class="inp num" type="number" data-qid="' + q.id + '" value="' + escapeAttr(val || "") + '" min="' + (q.min !== undefined ? q.min : 0) + '" max="' + (q.max !== undefined ? q.max : 999) + '"><span class="unit">' + escapeText(q.unit || "") + '</span>';
   } else if (q.type === "textarea") {
     const max = q.maxlength || 200;
     const cur = (val || "").length;
-    h += '<textarea class="ta" data-qid="' + q.id + '" maxlength="' + max + '"' +
-      ' placeholder="' + escapeAttr(q.placeholder || "") + '">' + escapeText(val || "") + '</textarea>';
+    h += '<textarea class="ta" data-qid="' + q.id + '" maxlength="' + max + '" placeholder="' + escapeAttr(q.placeholder || "") + '">' + escapeText(val || "") + '</textarea>';
     h += '<div class="count">' + cur + "/" + max + '</div>';
   }
-
   if (q.other) {
     const show = (state.answers[q.id] === "其他");
     const ov = state.answers[q.id + "_other"] || "";
-    h += '<div class="other-wrap" data-otherfor="' + q.id + '" style="display:' + (show ? "block" : "none") + '">' +
-      '<input class="inp" type="text" data-qid="' + (q.id + "_other") + '" value="' + escapeAttr(ov) + '" placeholder="请说明" maxlength="30">' +
-      '</div>';
+    h += '<div class="other-wrap" data-otherfor="' + q.id + '" style="display:' + (show ? "block" : "none") + '"><input class="inp" type="text" data-qid="' + (q.id + "_other") + '" value="' + escapeAttr(ov) + '" placeholder="请说明" maxlength="30"></div>';
   }
-
-  h += '<div class="q-err"></div>';
-  h += '</div>';
+  h += '<div class="q-err"></div></div>';
   return h;
 }
 
 function renderFootHTML(pageIdx) {
-  const nextLabels = {
-    1: "下一页",
-    2: "继续",
-    3: "请继续",
-    4: "请继续填写",
-    5: "请继续填写",
-    6: "请继续填写",
-    7: "请完成"
-  };
+  const nextLabels = { 1: "下一页", 2: "继续", 3: "请继续", 4: "请继续填写", 5: "请继续填写", 6: "请继续填写", 7: "请完成" };
   const pct = PROGRESS[pageIdx] !== undefined ? PROGRESS[pageIdx] : 0;
   let displayPage = pageIdx;
   if (pageIdx === 4) displayPage = 3;
 
-  let h = '<div class="survey-foot">';
-  h += '<div class="foot-left">';
+  let h = '<div class="survey-foot"><div class="foot-left">';
   h += '<button class="btn" data-act="prev"' + (pageIdx <= 1 ? " disabled" : "") + '>上一页</button>';
   h += '<button class="btn primary" data-act="next">' + (nextLabels[pageIdx] || "下一页") + '</button>';
-  h += '</div>';
-  h += '<div class="foot-right">';
+  h += '</div><div class="foot-right">';
   h += '<div class="prog"><div class="prog-bar" style="width:' + pct + '%"></div></div>';
   h += '<div class="prog-text">第 ' + displayPage + ' 页 / 共 9 页</div>';
-  h += '</div>';
-  h += '</div>';
+  h += '</div></div>';
   return h;
 }
 
@@ -1189,26 +1032,15 @@ function renderConsentHTML() {
   let h = '<div class="consent">';
   h += '<div class="doc-head">第七观测站 · 居民服务与归档科</div>';
   h += '<div class="doc-sub">居民状态普查表（B-7 修订版）</div>';
-  h += '<div class="doc-meta">编号 B7 / 20██ / 修订 3</div>';
-  h += '<hr>';
+  h += '<div class="doc-meta">编号 B7 / 20██ / 修订 3</div><hr>';
   h += '<p>一、本表用于采集本站辖区居民的基本状态信息，作为档案维护与资源调配的依据。</p>';
   h += '<p>二、本表采用匿名方式，所填信息仅用于统计与归档，不作他用。</p>';
   h += '<p>三、请如实填写。填写过程中请勿关闭本页面。如有疑问，请联系内线 0。</p>';
-  h += '<label class="opt"><input type="checkbox" id="consentBox"' +
-       (state.answers["__consent"] ? " checked" : "") + '>' +
-       '<span class="box"></span><span class="lb">我已阅读并同意</span></label>';
+  h += '<label class="opt"><input type="checkbox" id="consentBox"' + (state.answers["__consent"] ? " checked" : "") + '><span class="box"></span><span class="lb">我已阅读并同意</span></label>';
   h += '</div>';
-
-  h += '<div class="survey-foot">';
-  h += '<div class="foot-left">';
-  h += '<button class="btn primary" data-act="next"' + (state.answers["__consent"] ? "" : " disabled") + '>' +
-       (state.answers["__consent"] ? "开始填写" : "请先阅读并同意") + '</button>';
-  h += '</div>';
-  h += '<div class="foot-right">';
-  h += '<div class="prog"><div class="prog-bar" style="width:0%"></div></div>';
-  h += '<div class="prog-text">第 0 页 / 共 9 页</div>';
-  h += '</div>';
-  h += '</div>';
+  h += '<div class="survey-foot"><div class="foot-left">';
+  h += '<button class="btn primary" data-act="next"' + (state.answers["__consent"] ? "" : " disabled") + '>' + (state.answers["__consent"] ? "开始填写" : "请先阅读并同意") + '</button>';
+  h += '</div><div class="foot-right"><div class="prog"><div class="prog-bar" style="width:0%"></div></div><div class="prog-text">第 0 页 / 共 9 页</div></div></div>';
   return h;
 }
 
@@ -1216,72 +1048,32 @@ function renderQuestionsHTML(pageIdx) {
   const pg = PAGES[pageIdx];
   const qs = getPageQuestions(pageIdx);
   let h = '<div class="page-head"><span class="page-title">' + escapeText(pg.title) + '</span></div>';
-  if (pageIdx === 7) {
-    h += '<div class="page7-note">（如遇第 13 题，请勿作答，直接关闭本页。）</div>';
-  }
-  qs.forEach(function (q) {
-    h += renderQuestionHTML(q);
-  });
+  if (pageIdx === 7) h += '<div class="page7-note">（如遇第 13 题，请勿作答，直接关闭本页。）</div>';
+  qs.forEach(q => { h += renderQuestionHTML(q); });
   h += renderFootHTML(pageIdx);
   return h;
 }
 
-/* ============================================================
-   8. 第 6 页：动态回音题
-   ============================================================ */
 function buildEchoQuestions() {
   const floor = state.meta.floor;
   const house = state.meta.household;
   const name = state.meta.name;
   const door = state.meta.door;
-
   const qs = [];
-
-  qs.push({
-    id: "q35", no: "1", type: "radio", required: true,
-    title: floor
-      ? "根据您在第 1 页提供的信息，您居住于 " + floor + " 层。请回忆：昨夜您返回 " + floor + " 层时，楼道内共有几人？"
-      : "您未提供该信息。我们仍能确认您本人。",
-    options: floor
-      ? [ O("0 人"), O("1 人"), O("2 人"), O("我已不在该楼层", 2, ["aware"]) ]
-      : [ O("0 人"), O("1 人"), O("2 人"), O("我不确定", 2, ["aware"]) ]
-  });
-
-  qs.push({
-    id: "q36", no: "2", type: "radio", required: true,
-    title: house
-      ? "您在第 2 页登记的同住人数为 " + house + "。请确认，此刻与您同处一室的共几人？"
-      : "您未提供该信息。我们仍能确认您本人。",
-    options: house
-      ? [ O(house), O("少 1 人", 2, ["aware"]), O("多 1 人", 3, ["aware"]), O("无法确认", 2, ["aware"]) ]
-      : [ O("0 人"), O("1 人"), O("2 人"), O("无法确认", 2, ["aware"]) ]
-  });
-
-  qs.push({
-    id: "q37", no: "3", type: "radio", required: true,
-    title: name
-      ? name + "，请确认您本人当前所在位置。"
-      : "您未提供该信息。我们仍能确认您本人。",
-    options: [
-      O("住所"), O("单位"), O("通勤途中"), O("我不确定", 2, ["aware"])
-    ]
-  });
-
-  qs.push({
-    id: "q38", no: "4", type: "radio", required: true,
-    title: door
-      ? "已核对门牌号 " + door + "。该号码对应的登记住户为 " + (name || "（未提供）") + "。是否继续？"
-      : "您未提供该信息。我们仍能确认您本人。",
-    options: [
-      O("是"), O("否", 1, ["deny"]), O("该号码不属于我", 3, ["aware"])
-    ]
-  });
-
+  
+  qs.push({ id: "q35", no: "1", type: "radio", required: true, title: floor ? "根据您在第 1 页提供的信息，您居住于 " + floor + " 层。请回忆：昨夜您返回 " + floor + " 层时，楼道内共有几人？" : "您未提供该信息。我们仍能确认您本人。", options: floor ? [ O("0 人"), O("1 人"), O("2 人"), O("我已不在该楼层", 2, ["aware"]) ] : [ O("0 人"), O("1 人"), O("2 人"), O("我不确定", 2, ["aware"]) ] });
+  
+  qs.push({ id: "q36", no: "2", type: "radio", required: true, title: house ? "您在第 2 页登记的同住人数为 " + house + "。请确认，此刻与您同处一室的共几人？" : "您未提供该信息。我们仍能确认您本人。", options: house ? [ O(house), O("少 1 人", 2, ["aware"]), O("多 1 人", 3, ["aware"]), O("无法确认", 2, ["aware"]) ] : [ O("0 人"), O("1 人"), O("2 人"), O("无法确认", 2, ["aware"]) ] });
+  
+  qs.push({ id: "q37", no: "3", type: "radio", required: true, title: name ? name + "，请确认您本人当前所在位置。" : "您未提供该信息。我们仍能确认您本人。", options: [ O("住所"), O("单位"), O("通勤途中"), O("我不确定", 2, ["aware"]) ] });
+  
+  qs.push({ id: "q38", no: "4", type: "radio", required: true, title: door ? "已核对门牌号 " + door + "。该号码对应的登记住户为 " + (name || "（未提供）") + "。是否继续？" : "您未提供该信息。我们仍能确认您本人。", options: [ O("是"), O("否", 1, ["deny"]), O("该号码不属于我", 3, ["aware"]) ] });
+  
   return qs;
 }
 
 /* ============================================================
-   9. 页面跳转 / 校验
+   8. 页面跳转与校验
    ============================================================ */
 function goPage(n) {
   state.page = n;
@@ -1293,13 +1085,14 @@ function goPage(n) {
 function validatePage(pageIdx) {
   const qs = getPageQuestions(pageIdx);
   let ok = true;
-  qs.forEach(function (q) {
+  qs.forEach(q => {
     if (!q.required) return;
     const a = state.answers[q.id];
     const errEl = surveyWin.body.querySelector('.q[data-qid="' + q.id + '"] .q-err');
     if (isBlank(a)) {
       ok = false;
       if (errEl) errEl.textContent = "此项为必填项。";
+      playError();
     } else {
       if (errEl) errEl.textContent = "";
     }
@@ -1312,13 +1105,15 @@ const BACK_FAIL_PAGES = [4, 6];
 function nextPage() {
   const p = state.page;
   if (p === 0) {
-    if (!state.answers["__consent"]) return;
+    if (!state.answers["__consent"]) { playError(); return; }
     goPage(1);
     return;
   }
   if (!validatePage(p)) return;
+  playBeep(900, 'sine', 0.05, 0.05);
   if (p === 7) {
     state.flags.completed = true;
+    triggerDesktopAnomaly(); // 触发桌面异变
     goPage(8);
     return;
   }
@@ -1328,6 +1123,7 @@ function nextPage() {
 function prevPage() {
   const p = state.page;
   if (p <= 1) return;
+  playBeep(700, 'sine', 0.05, 0.05);
   if (BACK_FAIL_PAGES.indexOf(p) >= 0 && !state.flags.backFail[p]) {
     state.flags.backFail[p] = true;
     return;
@@ -1336,32 +1132,26 @@ function prevPage() {
 }
 
 /* ============================================================
-   10. 计分
+   9. 计分与结论
    ============================================================ */
 function calcScores() {
   let comply = 0, aware = 0, residue = 0;
-
   for (let p = 1; p <= 7; p++) {
     const qs = getPageQuestions(p);
-    qs.forEach(function (q) {
+    qs.forEach(q => {
       const a = state.answers[q.id];
       const answered = !isBlank(a);
-
       if (answered) comply += 1;
-
       if (q.type === "input" || q.type === "number" || q.type === "textarea") {
-        if (answered) {
-          comply += 1;
-          if (q.residue) residue += 3;
-        }
+        if (answered) { comply += 1; if (q.residue) residue += 3; }
       } else if (q.type === "scale") {
         if (answered) comply += 1;
       } else {
         const sel = Array.isArray(a) ? a : (a ? [a] : []);
-        sel.forEach(function (lb) {
-          const o = (q.options || []).filter(function (x) { return x.label === lb; })[0];
+        sel.forEach(lb => {
+          const o = (q.options || []).filter(x => x.label === lb)[0];
           if (!o) return;
-          (o.tags || []).forEach(function (t) {
+          (o.tags || []).forEach(t => {
             if (t === "aware") aware += o.w;
             else if (t === "residue") residue += o.w;
             else if (t === "comply" || t === "deny") comply += o.w;
@@ -1370,160 +1160,55 @@ function calcScores() {
       }
     });
   }
-
   const q13 = state.answers["q39"];
   if (q13 === "愿意") comply += 8;
   else if (q13 === "不愿意") { aware += 4; comply -= 4; }
   else if (q13 === "请让我回去") { aware += 2; }
 
-  function norm(v, d) {
-    const r = Math.round((v / d) * 100);
-    return Math.max(0, Math.min(100, r));
-  }
-
-  state.scores = {
-    comply: norm(comply, 95),
-    aware: norm(aware, 30),
-    residue: norm(residue, 18)
-  };
+  function norm(v, d) { return Math.max(0, Math.min(100, Math.round((v / d) * 100))); }
+  state.scores = { comply: norm(comply, 95), aware: norm(aware, 30), residue: norm(residue, 18) };
 }
 
-/* ============================================================
-   11. 结论与建议
-   ============================================================ */
 function getConclusion() {
   const aware = state.scores.aware;
   const comply = state.scores.comply;
-
-  if (state.flags.forcedIncomplete) {
-    return {
-      key: "closed",
-      title: "未完成",
-      body: "表单未完成。系统已代为补全。",
-      tail: "表单未完成。系统已代为补全。"
-    };
-  }
-
+  if (state.flags.forcedIncomplete) return { key: "closed", title: "未完成", body: "表单未完成。系统已代为补全。", tail: "表单未完成。系统已代为补全。" };
+  
   const q13 = state.answers["q39"];
-  if (q13 === "愿意") {
-    return {
-      key: "stay",
-      title: "留存",
-      body: "您已同意继续留存。本表归入常驻档案。",
-      tail: "您已同意继续留存。"
-    };
-  }
-  if (q13 === "不愿意") {
-    return {
-      key: "leave",
-      title: "转出",
-      body: "您的转出申请已受理，请等待通知。",
-      tail: "您的转出申请已受理，请等待通知。"
-    };
-  }
-  if (q13 === "请让我回去") {
-    return {
-      key: "return",
-      title: "返回",
-      body: "未找到可返回的路径。本条已记录。",
-      tail: "未找到可返回的路径。本条已记录。"
-    };
-  }
-
-  if (aware >= 80) {
-    return { key: "match", title: "已确认匹配", body: "已确认匹配。请勿关闭本页面。", tail: "" };
-  }
-  if (aware < 25 && comply >= 60) {
-    return { key: "stable", title: "状态稳定", body: "状态稳定，予以归档。", tail: "" };
-  }
-  if (aware >= 25 && aware <= 54 && comply >= 50) {
-    return { key: "mild", title: "轻度偏差", body: "存在轻度偏差，建议复查。", tail: "" };
-  }
-  if (aware >= 55 && comply >= 50) {
-    return { key: "doubt", title: "分类存疑", body: "分类存疑，转入观察程序。", tail: "" };
-  }
-  if (aware >= 55 && comply < 50) {
-    return { key: "refuse", title: "拒绝登记", body: "当事人拒绝配合。记录在案，不予归档。", tail: "" };
-  }
+  if (q13 === "愿意") return { key: "stay", title: "留存", body: "您已同意继续留存。本表归入常驻档案。", tail: "您已同意继续留存。" };
+  if (q13 === "不愿意") return { key: "leave", title: "转出", body: "您的转出申请已受理，请等待通知。", tail: "您的转出申请已受理，请等待通知。" };
+  if (q13 === "请让我回去") return { key: "return", title: "返回", body: "未找到可返回的路径。本条已记录。", tail: "未找到可返回的路径。本条已记录。" };
+  
+  if (aware >= 80) return { key: "match", title: "已确认匹配", body: "已确认匹配。请勿关闭本页面。", tail: "" };
+  if (aware < 25 && comply >= 60) return { key: "stable", title: "状态稳定", body: "状态稳定，予以归档。", tail: "" };
+  if (aware >= 25 && aware <= 54 && comply >= 50) return { key: "mild", title: "轻度偏差", body: "存在轻度偏差，建议复查。", tail: "" };
+  if (aware >= 55 && comply >= 50) return { key: "doubt", title: "分类存疑", body: "分类存疑，转入观察程序。", tail: "" };
+  if (aware >= 55 && comply < 50) return { key: "refuse", title: "拒绝登记", body: "当事人拒绝配合。记录在案，不予归档。", tail: "" };
   return { key: "lack", title: "资料不足", body: "资料不足，本次普查视为未完成。", tail: "" };
 }
 
 const ADVICE_MAP = {
-  stable: [
-    "维持现有居住安排，无需变更。",
-    "按通知参加下一轮普查。",
-    "如收到回访请求，请在七日内回复内线 0。",
-    "本档案保存期限为五年。"
-  ],
-  mild: [
-    "建议在两周内进行一次住所自查。",
-    "留意室内物品的摆放位置，必要时做记录。",
-    "避免在 22:00 后单独返回住所。",
-    "如情况持续，请主动联系内线 0。"
-  ],
-  doubt: [
-    "本档案转入观察程序，观察期三十日。",
-    "观察期内请勿变更居住地址。",
-    "请于每周一上午到二层资料室签到。",
-    "如遇无法确认的情形，请勿自行判断。",
-    "观察期结束后另行通知。"
-  ],
-  refuse: [
-    "本次普查不予归档。",
-    "当事人信息保留在临时区，保存期限九十日。",
-    "如需重新登记，请于工作日前来办理。",
-    "请勿再次提交本表。"
-  ],
-  lack: [
-    "本次普查视为未完成。",
-    "空缺项不予补录。",
-    "请在下一次普查窗口期重新填写。",
-    "已提交的部分保留在临时区。"
-  ],
-  match: [
-    "请保持当前状态。",
-    "请勿关闭本页面。",
-    "请勿关闭本页面。",
-    "请勿关闭本页面。"
-  ],
-  stay: [
-    "已为您办理常驻登记。",
-    "常驻期间请遵守本站值班守则。",
-    "您的住址不再变更。",
-    "如有疑问，请联系内线 0。"
-  ],
-  leave: [
-    "转出申请已受理，受理编号已生成。",
-    "请等待通知，通知方式不另行告知。",
-    "等待期间请勿变更联系方式。",
-    "在通知到达之前，您仍处于登记状态。"
-  ],
-  return: [
-    "已记录您的请求。",
-    "未找到可返回的路径。",
-    "请在原位等待。",
-    "本条记录不予撤销。"
-  ],
-  closed: [
-    "系统已代为补全空缺项。",
-    "补全内容不予展示。",
-    "本表按未完成处理。",
-    "请勿再次中断填写流程。"
-  ]
+  stable: [ "维持现有居住安排，无需变更。", "按通知参加下一轮普查。", "如收到回访请求，请在七日内回复内线 0。", "本档案保存期限为五年。" ],
+  mild: [ "建议在两周内进行一次住所自查。", "留意室内物品的摆放位置，必要时做记录。", "避免在 22:00 后单独返回住所。", "如情况持续，请主动联系内线 0。" ],
+  doubt: [ "本档案转入观察程序，观察期三十日。", "观察期内请勿变更居住地址。", "请于每周一上午到二层资料室签到。", "如遇无法确认的情形，请勿自行判断。", "观察期结束后另行通知。" ],
+  refuse: [ "本次普查不予归档。", "当事人信息保留在临时区，保存期限九十日。", "如需重新登记，请于工作日前来办理。", "请勿再次提交本表。" ],
+  lack: [ "本次普查视为未完成。", "空缺项不予补录。", "请在下一次普查窗口期重新填写。", "已提交的部分保留在临时区。" ],
+  match: [ "请保持当前状态。", "请勿关闭本页面。", "请勿关闭本页面。", "请勿关闭本页面。" ],
+  stay: [ "已为您办理常驻登记。", "常驻期间请遵守本站值班守则。", "您的住址不再变更。", "如有疑问，请联系内线 0。" ],
+  leave: [ "转出申请已受理，受理编号已生成。", "请等待通知，通知方式不另行告知。", "等待期间请勿变更联系方式。", "在通知到达之前，您仍处于登记状态。" ],
+  return: [ "已记录您的请求。", "未找到可返回的路径。", "请在原位等待。", "本条记录不予撤销。" ],
+  closed: [ "系统已代为补全空缺项。", "补全内容不予展示。", "本表按未完成处理。", "请勿再次中断填写流程。" ]
 };
 
 /* ============================================================
-   12. 结果报告
+   10. 结果报告 (无法关闭)
    ============================================================ */
 function genArchiveId() {
   if (!state.flags.archiveId) {
     const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789";
     let mid = "";
-    for (let i = 0; i < 4; i++) {
-      mid += chars[Math.floor(Math.random() * chars.length)];
-    }
-    const tail = String(Math.floor(Math.random() * 90) + 10);
-    state.flags.archiveId = "B7-" + mid + "-" + tail;
+    for (let i = 0; i < 4; i++) mid += chars[Math.floor(Math.random() * chars.length)];
+    state.flags.archiveId = "B7-" + mid + "-" + String(Math.floor(Math.random() * 90) + 10);
   }
   return state.flags.archiveId;
 }
@@ -1531,36 +1216,22 @@ function genArchiveId() {
 function dateStr(offset) {
   const d = new Date();
   d.setDate(d.getDate() + offset);
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return y + "-" + m + "-" + dd;
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
 }
 
 function buildQuotes() {
   const quotes = [];
-
   const a1 = state.answers["q24"];
-  if (a1) {
-    quotes.push("您在“最近一个月内，是否注意到家中物品的位置发生过您未进行过的变动”一题中选择了『" + a1 + "』。该回答已记录。");
-  }
-
+  if (a1) quotes.push("您在“最近一个月内，是否注意到家中物品的位置发生过您未进行过的变动”一题中选择了『" + a1 + "』。该回答已记录。");
   const a2 = state.answers["q15"];
   const t2 = (typeof a2 === "string" ? a2.trim() : "");
   quotes.push("您对最近一周作息安排的描述为：『" + (t2 || "（空白）") + "』（原文引用）。");
   if (!t2) quotes.push("空白同样是一种回答。");
-
   const a3 = state.answers["q21"];
   const t3 = (typeof a3 === "string" ? a3.trim() : "");
-  if (t3) {
-    quotes.push("您对居住环境的描述为：『" + t3 + "』（原文引用）。");
-  }
-
+  if (t3) quotes.push("您对居住环境的描述为：『" + t3 + "』（原文引用）。");
   const a4 = state.answers["q35"];
-  if (a4) {
-    quotes.push("关于昨夜楼道内的人数，您的回答为『" + a4 + "』。该回答已记录。");
-  }
-
+  if (a4) quotes.push("关于昨夜楼道内的人数，您的回答为『" + a4 + "』。该回答已记录。");
   return quotes.slice(0, 4);
 }
 
@@ -1570,15 +1241,11 @@ function renderReportHTML() {
   const s = state.scores;
   const name = state.meta.name || "（未提供）";
   const id = genArchiveId();
-
   const stability = Math.max(0, 100 - s.aware);
 
   let h = '<div class="report">';
-
   h += '<div class="rep-head">第七观测站 · 居民服务与归档科<br>居民状态普查 · 结果报告';
-  if (state.flags.forcedIncomplete) {
-    h += '<span class="rep-flag">补全</span>';
-  }
+  if (state.flags.forcedIncomplete) h += '<span class="rep-flag">补全</span>';
   h += '</div>';
 
   h += '<table class="rep-table">';
@@ -1590,22 +1257,11 @@ function renderReportHTML() {
   h += '<tr><td>表单状态</td><td>' + (state.flags.forcedIncomplete ? "未完成（系统补全）" : "已提交") + '</td></tr>';
   h += '</table>';
 
-  if (!state.meta.name) {
-    h += '<div class="rep-note">我们仍能确认您是本人。</div>';
-  }
+  if (!state.meta.name) h += '<div class="rep-note">我们仍能确认您是本人。</div>';
 
   h += '<div class="rep-sec">状态指标</div>';
-  const bars = [
-    { label: "配合度", val: s.comply },
-    { label: "稳定性", val: stability },
-    { label: "档案完整度", val: s.residue }
-  ];
-  bars.forEach(function (b) {
-    h += '<div class="bar-row">' +
-      '<span class="bar-label">' + b.label + '</span>' +
-      '<span class="bar-track"><span class="bar-fill" style="width:' + b.val + '%"></span></span>' +
-      '<span class="bar-num">' + b.val + '</span>' +
-      '</div>';
+  [ { label: "配合度", val: s.comply }, { label: "稳定性", val: stability }, { label: "档案完整度", val: s.residue } ].forEach(b => {
+    h += '<div class="bar-row"><span class="bar-label">' + b.label + '</span><span class="bar-track"><span class="bar-fill" style="width:' + b.val + '%"></span></span><span class="bar-num">' + b.val + '</span></div>';
   });
 
   h += '<div class="rep-sec">结论</div>';
@@ -1613,37 +1269,22 @@ function renderReportHTML() {
   h += '<div class="rep-concl-body">' + escapeText(concl.body) + '</div>';
 
   h += '<div class="rep-sec">原始回答摘录</div>';
-  buildQuotes().forEach(function (q) {
-    h += '<div class="rep-quote">' + escapeText(q) + '</div>';
-  });
+  buildQuotes().forEach(q => { h += '<div class="rep-quote">' + escapeText(q) + '</div>'; });
 
-  h += '<div class="rep-sec">建议措施</div>';
-  h += '<ul class="rep-advice">';
-  (ADVICE_MAP[concl.key] || ADVICE_MAP.lack).forEach(function (a) {
-    h += '<li>' + escapeText(a) + '</li>';
-  });
+  h += '<div class="rep-sec">建议措施</div><ul class="rep-advice">';
+  (ADVICE_MAP[concl.key] || ADVICE_MAP.lack).forEach(a => { h += '<li>' + escapeText(a) + '</li>'; });
   h += '</ul>';
 
-  if (s.residue >= 60) {
-    h += '<div class="rep-tail">您的信息已与现有档案完成比对。</div>';
-  }
+  if (s.residue >= 60) h += '<div class="rep-tail">您的信息已与现有档案完成比对。</div>';
+  if (concl.tail) h += '<div class="rep-tail">' + escapeText(concl.tail) + '</div>';
 
-  if (concl.tail) {
-    h += '<div class="rep-tail">' + escapeText(concl.tail) + '</div>';
-  }
-
-  h += '<div class="rep-foot">';
-  h += '经办人：____　复核：____　日期：' + dateStr(0) + '<br>';
-  h += '经办人：____　复核：____　日期：' + dateStr(1) + '<br>';
-  h += '经办人：____　复核：____　日期：' + dateStr(2);
-  h += '</div>';
-
+  h += '<div class="rep-foot">经办人：____　复核：____　日期：' + dateStr(0) + '<br>经办人：____　复核：____　日期：' + dateStr(1) + '<br>经办人：____　复核：____　日期：' + dateStr(2) + '</div>';
   h += '</div>';
   return h;
 }
 
 /* ============================================================
-   13. 渲染主入口
+   11. 渲染主入口
    ============================================================ */
 function renderSurvey() {
   if (!surveyWin) return;
@@ -1652,7 +1293,6 @@ function renderSurvey() {
   if (p === 0) html = renderConsentHTML();
   else if (p >= 1 && p <= 7) html = renderQuestionsHTML(p);
   else html = renderReportHTML();
-
   surveyWin.setBody(html);
   afterRender();
 }
@@ -1661,15 +1301,22 @@ function afterRender() {
   if (!surveyWin) return;
   const body = surveyWin.body;
 
+  // 结果页无法关闭逻辑
   if (state.page === 8) {
-    surveyWin.beforeClose = function () {
-      showModal("本次普查结果尚未归档，确定要放弃吗？", function () {
+    surveyWin.beforeClose = () => {
+      showModal("本次普查结果尚未归档，确定要放弃吗？", () => {
         state.flags.reopenCount += 1;
         surveyWin.beforeClose = null;
         surveyWin.close();
         surveyWin = null;
-        setTimeout(function () {
+        playBeep(200, 'sawtooth', 0.5, 0.1); // 低沉坠落音
+        setTimeout(() => {
           openSurvey(8);
+          // 篡改结论
+          const conclTitle = surveyWin.body.querySelector('.rep-concl-title');
+          const conclBody = surveyWin.body.querySelector('.rep-concl-body');
+          if (conclTitle) conclTitle.textContent = "已确认匹配。";
+          if (conclBody) conclBody.textContent = "已确认匹配。请勿关闭本页面。";
         }, 500);
       }, "确定", "取消");
       return false;
@@ -1682,7 +1329,7 @@ function afterRender() {
   const cands = body.querySelectorAll(".q-title, .q-hint, .consent p, .doc-meta, .page-title");
   if (cands.length) {
     const pick = cands[Math.floor(Math.random() * cands.length)];
-    fadeTimer = setTimeout(function () {
+    fadeTimer = setTimeout(() => {
       if (!document.body.contains(pick)) return;
       pick.style.transition = "color 5s linear";
       pick.style.color = "#b3b7bd";
@@ -1691,25 +1338,22 @@ function afterRender() {
 
   const cb = body.querySelector("#consentBox");
   if (cb) {
-    cb.addEventListener("change", function () {
+    cb.addEventListener("change", () => {
       saveAnswer("__consent", cb.checked);
       const btn = surveyWin.body.querySelector('[data-act="next"]');
-      if (btn) {
-        btn.disabled = !cb.checked;
-        btn.textContent = cb.checked ? "开始填写" : "请先阅读并同意";
-      }
+      if (btn) { btn.disabled = !cb.checked; btn.textContent = cb.checked ? "开始填写" : "请先阅读并同意"; }
     });
   }
 }
 
 /* ============================================================
-   14. 问卷窗口事件绑定
+   12. 问卷事件绑定
    ============================================================ */
 function bindSurveyEvents() {
   if (!surveyWin) return;
   const body = surveyWin.body;
 
-  body.addEventListener("click", function (e) {
+  body.addEventListener("click", e => {
     const t = e.target.closest("[data-act]");
     if (!t) return;
     const act = t.dataset.act;
@@ -1717,41 +1361,38 @@ function bindSurveyEvents() {
     else if (act === "prev") prevPage();
   });
 
-  body.addEventListener("change", function (e) {
+  body.addEventListener("change", e => {
     const t = e.target;
-
     if (t.matches('input[type="radio"], input[type="checkbox"]')) {
-      if (!t.dataset.qid) return;
-      handleChoice(t);
+      if (t.dataset.qid) handleChoice(t);
     } else if (t.matches("select")) {
-      if (!t.dataset.qid) return;
-      saveAnswer(t.dataset.qid, t.value);
+      if (t.dataset.qid) { saveAnswer(t.dataset.qid, t.value); playBeep(600, 'sine', 0.05, 0.05); }
     }
   });
 
-  body.addEventListener("input", function (e) {
+  body.addEventListener("input", e => {
     const t = e.target;
     if (!t.dataset || !t.dataset.qid) return;
     if (t.matches('input[type="text"], input[type="number"], textarea')) {
       saveAnswer(t.dataset.qid, t.value);
       if (t.tagName === "TEXTAREA") {
-        const wrap = t.parentElement;
-        const c = wrap ? wrap.querySelector(".count") : null;
+        const c = t.parentElement.querySelector(".count");
         if (c) c.textContent = t.value.length + "/" + t.maxLength;
       }
+      playTyping();
       maybePad(t);
     }
   });
 }
 
 function handleChoice(el) {
+  playBeep(500, 'sine', 0.05, 0.05);
   const qid = el.dataset.qid;
   const q = findQuestion(qid);
   if (!q) return;
 
   if (el.type === "radio") {
     saveAnswer(qid, el.value);
-
     if (q.other) {
       const wrap = surveyWin.body.querySelector('[data-otherfor="' + qid + '"]');
       if (wrap) wrap.style.display = (el.value === "其他") ? "block" : "none";
@@ -1759,49 +1400,38 @@ function handleChoice(el) {
     return;
   }
 
-  let arr = state.answers[qid];
-  if (!Array.isArray(arr)) arr = [];
-
+  let arr = state.answers[qid] || [];
   if (el.checked) {
     if (q.limit && arr.length >= q.limit) {
       el.checked = false;
       const tip = surveyWin.body.querySelector('[data-limitfor="' + qid + '"]');
-      if (tip) {
-        tip.textContent = q.limitMsg || ("最多选择" + q.limit + "项");
-        setTimeout(function () { if (tip) tip.textContent = ""; }, 2600);
-      }
+      if (tip) { tip.textContent = q.limitMsg || ("最多选择" + q.limit + "项"); setTimeout(() => { if (tip) tip.textContent = ""; }, 2600); }
+      playError();
       return;
     }
-    arr = arr.concat([el.value]);
+    arr.push(el.value);
   } else {
-    arr = arr.filter(function (v) { return v !== el.value; });
+    arr = arr.filter(v => v !== el.value);
   }
   saveAnswer(qid, arr);
 }
 
 function maybePad(el) {
   const qid = el.dataset.qid;
-  if (!qid) return;
-  if (state.flags.padded[qid]) return;
-  if (el.type === "number") return;
-  if (Math.random() > 0.15) return;
+  if (!qid || state.flags.padded[qid] || el.type === "number" || Math.random() > 0.15) return;
   state.flags.padded[qid] = true;
   const pool = "的一是在不了有和人这中大为上个国我以要他时来用们";
-  setTimeout(function () {
+  setTimeout(() => {
     if (!document.body.contains(el)) return;
     const ch = pool[Math.floor(Math.random() * pool.length)];
-    el.value = el.value + ch;
+    el.value += ch;
     state.answers[qid] = el.value;
-    if (el.tagName === "TEXTAREA") {
-      const wrap = el.parentElement;
-      const c = wrap ? wrap.querySelector(".count") : null;
-      if (c) c.textContent = el.value.length + "/" + el.maxLength;
-    }
+    playTyping();
   }, 900);
 }
 
 /* ============================================================
-   15. 打开问卷
+   13. 打开问卷 & 强制补全逻辑
    ============================================================ */
 function openSurvey(startPage) {
   if (surveyWin) {
@@ -1812,16 +1442,8 @@ function openSurvey(startPage) {
     renderSurvey();
     return surveyWin;
   }
-
-  surveyWin = createWindow({
-    title: "B-7 普查问卷 - 居民档案",
-    width: 720,
-    height: 600,
-    onClose: handleSurveyClose
-  });
-
+  surveyWin = createWindow({ title: "B-7 普查问卷 - 居民档案", width: 720, height: 600, onClose: handleSurveyClose });
   bindSurveyEvents();
-
   if (typeof startPage === "number") state.page = startPage;
   renderSurvey();
   return surveyWin;
@@ -1829,15 +1451,15 @@ function openSurvey(startPage) {
 
 function handleSurveyClose() {
   if (state.page === 7) {
+    // 强制补全分支
     state.flags.q13 = "closed";
     state.flags.forcedIncomplete = true;
     state.flags.completed = true;
     surveyWin = null;
-    setTimeout(function () {
+    triggerDesktopAnomaly(); // 桌面异变
+    setTimeout(() => {
       notify("检测到未完成的表单，已为您自动恢复。");
-      setTimeout(function () {
-        openSurvey(8);
-      }, 900);
+      setTimeout(() => { openSurvey(8); }, 1000);
     }, 2000);
     return;
   }
@@ -1845,7 +1467,168 @@ function handleSurveyClose() {
 }
 
 /* ============================================================
-   16. 文件夹与文件
+   14. 桌面异变 & 备忘录系统 (核心玩法)
+   ============================================================ */
+function triggerDesktopAnomaly() {
+  fadeDrone(0.2, 3);
+  const iconMemo = document.getElementById("icon-memo");
+  const iconPhone = document.getElementById("icon-phone");
+  if (iconMemo) iconMemo.style.display = "flex";
+  if (iconPhone) iconPhone.style.display = "flex";
+}
+
+function openMemo() {
+  if (memoWin) { focusWin(memoWin); return; }
+  
+  let html = '<div class="memo-app">';
+  html += '<div class="memo-date">2024-██-██ 23:45</div>';
+  
+  // 根据是否完成问卷动态生成备忘录
+  if (!state.flags.completed) {
+    html += '<p>今天去了观测站，交了表。那个走廊特别长，灯有点暗。</p>';
+    html += '<p>回来晚了，总觉得哪里不对劲。</p>';
+  } else {
+    html += '<p>交完表回来了。那个值班的人没有看我的眼睛。</p>';
+    html += '<p style="color:#8a2b2b">家里好像有人。</p>';
+    html += '<p>我确定我出门的时候把窗户关上了，但现在它开了一条缝。</p>';
+    html += '<div class="memo-q">1. 门锁的情况：</div>';
+    html += '<label class="memo-opt"><input type="radio" name="m1" value="lock"> 出门时锁了，现在也是锁着的。</label>';
+    html += '<label class="memo-opt"><input type="radio" name="m1" value="unlock"> 出门时锁了，但现在是开着的。</label>';
+    html += '<label class="memo-opt"><input type="radio" name="m1" value="none"> 我不记得了。</label>';
+    
+    html += '<div class="memo-q">2. 那个声音：</div>';
+    html += '<label class="memo-opt"><input type="radio" name="m2" value="ignore"> 躲在卧室，假装没听到。</label>';
+    html += '<label class="memo-opt"><input type="radio" name="m2" value="check"> 去客厅看一眼。</label>';
+    
+    html += '<div style="margin-top:20px; text-align:right;"><button class="btn" id="memo-save">保存并关闭</button></div>';
+  }
+  
+  html += '</div>';
+  
+  memoWin = createWindow({
+    title: "个人备忘.txt - 草稿",
+    width: 500,
+    height: 420,
+    content: html,
+    onClose: () => { memoWin = null; }
+  });
+
+  const saveBtn = memoWin.body.querySelector("#memo-save");
+  if (saveBtn) {
+    saveBtn.addEventListener("click", () => {
+      const m1 = memoWin.body.querySelector('input[name="m1"]:checked');
+      const m2 = memoWin.body.querySelector('input[name="m2"]:checked');
+      
+      if (!m1 || !m2) {
+        showModal("请完成备忘录中的选择。", null, "确定", "取消");
+        return;
+      }
+      
+      state.flags.memoChoices = { lock: m1.value, sound: m2.value };
+      memoWin.close();
+      memoWin = null;
+      triggerFinalEnding();
+    });
+  }
+}
+
+// 内线电话系统
+function openPhone() {
+  let html = '<div style="padding:10px; font-family:monospace;">';
+  html += '<h3>内线通讯</h3>';
+  html += '<ul style="list-style:none; padding:0; line-height:2;">';
+  html += '<li>内线 0 (档案科) - <span style="color:#8a2b2b">占线</span></li>';
+  html += '<li>内线 1 (保卫处) - <span style="color:#8a2b2b">无人接听</span></li>';
+  html += '<li>内线 2 (站长办公室) - <span style="color:#8a2b2b">空号</span></li>';
+  html += '</ul>';
+  html += '<button class="btn" id="phone-call-0" style="margin-top:20px;">呼叫内线 0</button>';
+  html += '</div>';
+
+  const win = createWindow({ title: "内线通讯.app", width: 400, height: 300, content: html });
+  win.body.querySelector("#phone-call-0").addEventListener("click", () => {
+    win.close();
+    triggerTrueEnding();
+  });
+}
+
+/* ============================================================
+   15. 结局判定与演出
+   ============================================================ */
+function triggerFinalEnding() {
+  const s = state.scores;
+  const m = state.flags.memoChoices;
+  let ending = "";
+  let text = "";
+  
+  // 判定逻辑：结合备忘录选择和问卷得分
+  if (m.lock === "unlock" || m.sound === "check") {
+    // 探究真相
+    if (s.aware > 50) {
+      ending = "【结局：观测者】";
+      text = "你走到客厅。那里没有人，只有一台正在运行的终端。屏幕上显示着你的档案。\n\n你突然意识到，你填写的不是问卷，而是你自己的观测记录。门从来没有开过。\n\n你坐下来，开始等待下一位填表人。";
+    } else {
+      ending = "【结局：同化】";
+      text = "你推开门。门外是一条无限循环的走廊。所有的门牌号都变成了你的名字。\n\n系统提示：您的档案已完整。您已成为本站常驻居民。";
+    }
+  } else {
+    // 回避真相
+    if (s.comply > 60) {
+      ending = "【结局：归档】";
+      text = "你躲在卧室里，熬到了天亮。第二天，你收到了一封来自观测站的信。\n\n“感谢您的配合。您的状态已被确认为稳定。请继续保持。”\n\n窗外的天空是一块巨大的灰色屏幕。";
+    } else {
+      ending = "【结局：拒绝】";
+      text = "你选择忽略一切。渐渐地，你听不到那个声音了，也听不到敲门声了。\n\n直到某天，你发现镜子里的自己不再做出相同的动作。你成为了系统里一个无法被删除的坏账。";
+    }
+  }
+  
+  // 播放结局长文本
+  const win = createWindow({
+    title: "系统异常",
+    width: 560,
+    height: 380,
+    content: '<div style="padding:20px; font-family:\'Consolas\',monospace; font-size:14px; line-height:2; color:#8a2b2b;">' +
+             '<h2 style="text-align:center; margin-bottom:20px;">' + ending + '</h2>' +
+             '<p>' + text.replace(/\n/g, '<br>') + '</p>' +
+             '<p style="margin-top:30px; color:#6b7078; font-size:12px;">点击 × 返回桌面。系统已为您保留最后的状态。</p>' +
+             '</div>',
+    onClose: () => {
+      // 结局后桌面彻底废弃
+      document.body.style.background = "#000";
+      document.getElementById("topbar").style.color = "#333";
+      document.getElementById("clock").textContent = "00:00:00";
+      document.getElementById("tb-status").innerHTML = "<span class='dot' style='background:#8a2b2b'></span>离线";
+      const icons = document.querySelectorAll(".dicon");
+      icons.forEach(i => {
+        if (i.dataset.open !== "memo" && i.dataset.open !== "phone") {
+          i.style.opacity = "0.2";
+          i.style.pointerEvents = "none";
+        }
+      });
+      fadeDrone(0.0, 2); // 环境音消失
+    }
+  });
+}
+
+function triggerTrueEnding() {
+  // 彩蛋真结局
+  fadeDrone(0.3, 1);
+  const win = createWindow({
+    title: "未知信号",
+    width: 500,
+    height: 300,
+    content: '<div style="padding:20px; font-family:\'Consolas\',monospace; font-size:14px; line-height:2;">' +
+             '<p>电话接通了。</p>' +
+             '<p>对面没有声音，只有极其微弱的呼吸声。</p>' +
+             '<p>你屏住呼吸。那个呼吸声突然停了。</p>' +
+             '<p style="color:#8a2b2b">“终于接通了。你还在那里吗？”</p>' +
+             '<p>声音和你的一模一样。</p>' +
+             '<p style="margin-top:20px; font-size:12px; color:#6b7078;">（感谢游玩。）</p>' +
+             '</div>'
+  });
+}
+
+/* ============================================================
+   16. 静态文件窗口
    ============================================================ */
 function openTextWin(title, text, w, h) {
   createWindow({
@@ -1857,78 +1640,48 @@ function openTextWin(title, text, w, h) {
 }
 
 function fileItemHTML(name, size, kind) {
-  let svg = "";
-  if (kind === "folder") {
-    svg = '<svg viewBox="0 0 48 40" width="16" height="14"><path d="M2 6h14l4 5h26v23H2z" fill="#5a6470" stroke="#8b939d" stroke-width="1.6"/></svg>';
-  } else {
-    svg = '<svg viewBox="0 0 40 48" width="14" height="17"><path d="M6 3h20l8 8v34H6z" fill="#dfe2e6" stroke="#8d949c" stroke-width="2"/><path d="M26 3v8h8" fill="none" stroke="#8d949c" stroke-width="2"/></svg>';
-  }
-  return '<li data-file="' + escapeAttr(name) + '">' +
-    '<span class="fi">' + svg + '</span>' +
-    '<span class="fn">' + escapeText(name) + '</span>' +
-    '<span class="fs">' + escapeText(size || "") + '</span>' +
-    '</li>';
+  const svg = kind === "folder" 
+    ? '<svg viewBox="0 0 48 40" width="16" height="14"><path d="M2 6h14l4 5h26v23H2z" fill="#5a6470" stroke="#8b939d" stroke-width="1.6"/></svg>'
+    : '<svg viewBox="0 0 40 48" width="14" height="17"><path d="M6 3h20l8 8v34H6z" fill="#dfe2e6" stroke="#8d949c" stroke-width="2"/><path d="M26 3v8h8" fill="none" stroke="#8d949c" stroke-width="2"/></svg>';
+  return '<li data-file="' + escapeAttr(name) + '"><span class="fi">' + svg + '</span><span class="fn">' + escapeText(name) + '</span><span class="fs">' + escapeText(size || "") + '</span></li>';
 }
 
 function openArchiveFolder() {
-  const win = createWindow({
-    title: "居民档案",
-    width: 520,
-    height: 340
-  });
+  const win = createWindow({ title: "居民档案", width: 520, height: 340 });
   let h = '<ul class="filelist">';
   h += fileItemHTML("B-7 普查问卷", "应用", "file");
   h += fileItemHTML("填表须知.txt", "1 KB", "file");
   h += "</ul>";
   win.setBody(h);
-
-  win.body.addEventListener("click", function (e) {
+  win.body.addEventListener("click", e => {
     const li = e.target.closest("li[data-file]");
     if (!li) return;
-    const name = li.dataset.file;
-    if (name === "B-7 普查问卷") {
-      openSurvey();
-    } else if (name === "填表须知.txt") {
-      openTextWin("填表须知.txt", TEXTS.notice, 540, 430);
-    }
+    if (li.dataset.file === "B-7 普查问卷") openSurvey();
+    else if (li.dataset.file === "填表须知.txt") openTextWin("填表须知.txt", TEXTS.notice, 540, 430);
   });
 }
 
 function openRulesFolder() {
-  const win = createWindow({
-    title: "内部规章",
-    width: 520,
-    height: 300
-  });
+  const win = createWindow({ title: "内部规章", width: 520, height: 300 });
   let h = '<ul class="filelist">';
   h += fileItemHTML("值班守则.txt", "2 KB", "file");
   h += fileItemHTML("交接班记录.log", "1 KB", "file");
   h += "</ul>";
   win.setBody(h);
-
-  win.body.addEventListener("click", function (e) {
+  win.body.addEventListener("click", e => {
     const li = e.target.closest("li[data-file]");
     if (!li) return;
-    const name = li.dataset.file;
-    if (name === "值班守则.txt") {
-      openTextWin("值班守则.txt", TEXTS.rules, 600, 560);
-    } else if (name === "交接班记录.log") {
-      openTextWin("交接班记录.log", TEXTS.log, 600, 320);
-    }
+    if (li.dataset.file === "值班守则.txt") openTextWin("值班守则.txt", TEXTS.rules, 600, 560);
+    else if (li.dataset.file === "交接班记录.log") openTextWin("交接班记录.log", TEXTS.log, 600, 320);
   });
 }
 
 function openSystemFolder() {
-  const win = createWindow({
-    title: "系统",
-    width: 480,
-    height: 240
-  });
+  const win = createWindow({ title: "系统", width: 480, height: 240 });
   win.setBody('<ul class="filelist">' + fileItemHTML("readme.txt", "1 KB", "file") + "</ul>");
-  win.body.addEventListener("click", function (e) {
+  win.body.addEventListener("click", e => {
     const li = e.target.closest("li[data-file]");
-    if (!li) return;
-    openTextWin("readme.txt", TEXTS.readme, 580, 420);
+    if (li) openTextWin("readme.txt", TEXTS.readme, 580, 420);
   });
 }
 
@@ -1937,76 +1690,52 @@ function openUnnamed() {
 }
 
 function openFiledFolder() {
-  const win = createWindow({
-    title: "归档",
-    width: 520,
-    height: 320
-  });
-
+  const win = createWindow({ title: "归档", width: 520, height: 320 });
   let h = "";
   if (state.flags.completed) {
     const nm = state.meta.name || "未命名";
-    h += '<ul class="filelist">';
-    h += fileItemHTML(nm + ".B7", "3 KB", "file");
-    h += "</ul>";
+    h += '<ul class="filelist">' + fileItemHTML(nm + ".B7", "3 KB", "file") + "</ul>";
     h += '<div class="empty-note">最近一次归档：' + dateStr(0) + '</div>';
   } else {
     h += '<div class="empty-note">此文件夹为空。</div>';
   }
   win.setBody(h);
-
-  win.body.addEventListener("click", function (e) {
+  win.body.addEventListener("click", e => {
     const li = e.target.closest("li[data-file]");
     if (!li) return;
-    const name = li.dataset.file;
-    if (name.indexOf(".B7") >= 0) {
+    if (li.dataset.file.indexOf(".B7") >= 0) {
       const nm = state.meta.name || "（未提供）";
-      let txt = "第七观测站 居民档案副本\n";
-      txt += "--------------------------------\n";
-      txt += "姓名：" + nm + "\n";
-      txt += "档案编号：" + (state.flags.archiveId || genArchiveId()) + "\n";
-      txt += "归档日期：" + dateStr(0) + "\n";
-      txt += "居住区域：" + (state.answers["q6"] || "（未提供）") + "\n";
+      let txt = "第七观测站 居民档案副本\n--------------------------------\n";
+      txt += "姓名：" + nm + "\n档案编号：" + (state.flags.archiveId || genArchiveId()) + "\n";
+      txt += "归档日期：" + dateStr(0) + "\n居住区域：" + (state.answers["q6"] || "（未提供）") + "\n";
       txt += "居住楼层：" + (state.meta.floor ? state.meta.floor + " 层" : "（未提供）") + "\n";
-      txt += "门牌号：" + (state.meta.door || "（未提供）") + "\n";
-      txt += "--------------------------------\n";
-      txt += "本副本仅供归档科内部查阅。\n";
-      txt += "请勿复制、请勿外传、请勿核对。\n";
+      txt += "门牌号：" + (state.meta.door || "（未提供）") + "\n--------------------------------\n";
+      txt += "本副本仅供归档科内部查阅。\n请勿复制、请勿外传、请勿核对。\n";
       openTextWin(nm + ".B7", txt, 520, 340);
     }
   });
 }
 
 function openTrash() {
-  const win = createWindow({
-    title: "回收站",
-    width: 520,
-    height: 300
-  });
-
+  const win = createWindow({ title: "回收站", width: 520, height: 300 });
   const late = (state.page >= 6) || state.flags.q13 !== null || state.flags.completed;
-
   let h = "";
   if (late) {
-    h += '<ul class="filelist">';
-    h += fileItemHTML("B7-____.tmp", "0 KB", "file");
-    h += "</ul>";
+    h += '<ul class="filelist">' + fileItemHTML("B7-____.tmp", "0 KB", "file") + "</ul>";
     h += '<div class="empty-note">1 个项目。删除时间：--:--</div>';
   } else {
     h += '<div class="empty-note">回收站为空。</div>';
   }
   win.setBody(h);
-
-  win.body.addEventListener("click", function (e) {
+  win.body.addEventListener("click", e => {
     const li = e.target.closest("li[data-file]");
-    if (!li) return;
-    openTextWin("B7-____.tmp",
-      "该文件正在被使用中。\n\n无法读取，无法删除，无法重命名。\n\n（请勿重复尝试。）", 460, 260);
+    if (li) openTextWin("B7-____.tmp", "该文件正在被使用中。\n\n无法读取，无法删除，无法重命名。\n\n（请勿重复尝试。）", 460, 260);
   });
 }
 
-document.querySelectorAll(".dicon").forEach(function (el) {
-  el.addEventListener("click", function () {
+document.querySelectorAll(".dicon").forEach(el => {
+  el.addEventListener("click", () => {
+    if (!audioCtx) initAudio(); // 首次点击激活音效
     const kind = el.dataset.open;
     if (kind === "archive") openArchiveFolder();
     else if (kind === "rules") openRulesFolder();
@@ -2014,6 +1743,8 @@ document.querySelectorAll(".dicon").forEach(function (el) {
     else if (kind === "unnamed") openUnnamed();
     else if (kind === "filed") openFiledFolder();
     else if (kind === "trash") openTrash();
+    else if (kind === "memo") openMemo();
+    else if (kind === "phone") openPhone();
   });
 });
 
@@ -2023,7 +1754,6 @@ document.querySelectorAll(".dicon").forEach(function (el) {
 (function init() {
   syncMeta();
 })();
-
 </script>
 </body>
 </html>
